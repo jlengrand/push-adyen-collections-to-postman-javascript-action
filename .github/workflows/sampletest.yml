@@ -20,7 +20,7 @@ jobs:
         uses: jlengrand/push-adyen-collections-to-postman-javascript-action@main
         with:
           postman-key: ${{ secrets.POSTMAN_API_KEY }}
-          files-changed: ${{ steps.changed-files-specific.outputs.all }}
+          files-changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.process.outputs.time }}"
