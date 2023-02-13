@@ -1,0 +1,17 @@
+name: Sample Test for action
+
+on: [push]
+
+jobs:
+  sample_test_job:
+    runs-on: ubuntu-latest
+    name: A job to test the action in the repo
+    id: hello
+    steps:
+      - name: push-adyen-collections-to-postman-javascript-action
+        uses: jlengrand/push-adyen-collections-to-postman-javascript-action@v0.1
+        with:
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
