@@ -17,7 +17,7 @@ jobs:
           files: tests/*.yaml
       - name: push-adyen-collections-to-postman-javascript-action
         id: process
-        uses: jlengrand/push-adyen-collections-to-postman-javascript-action
+        uses: jlengrand/push-adyen-collections-to-postman-javascript-action@main
         with:
           postman-key: ${{ secrets.POSTMAN_API_KEY }}
           files-changed: ${{ steps.changed-files-specific.outputs.all }}
