@@ -1,10 +1,12 @@
 name: 'Push Adyen Collections to Postman '
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  postman-key:
+    description: 'Postman API Key'
     required: true
-    default: 'World'
+  files-changed:
+    description: 'Files changed'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'

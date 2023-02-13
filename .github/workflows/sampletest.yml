@@ -7,11 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to test the action in the repo
     steps:
-      - name: push-adyen-collections-to-postman-javascript-action
-        id: hello
-        uses: jlengrand/push-adyen-collections-to-postman-javascript-action@v0.1
+      - uses: actions/checkout@v3
         with:
-          who-to-greet: 'Mona the Octocat'
+          fetch-depth: 2
+      - name: Get changed files in the test folder
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v35
+        with:
+          files: tests/*.yaml
+      - name: push-adyen-collections-to-postman-javascript-action
+        id: process
+        uses: jlengrand/push-adyen-collections-to-postman-javascript-action
+        with:
+          postman-key: ${{ secrets.POSTMAN_API_KEY }}
+          files-changed: ${{ steps.changed-files-specific.outputs.all }}
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.process.outputs.time }}"
