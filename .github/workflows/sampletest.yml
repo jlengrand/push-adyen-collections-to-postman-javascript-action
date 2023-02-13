@@ -6,9 +6,9 @@ jobs:
   sample_test_job:
     runs-on: ubuntu-latest
     name: A job to test the action in the repo
-    id: hello
     steps:
       - name: push-adyen-collections-to-postman-javascript-action
+        id: hello
         uses: jlengrand/push-adyen-collections-to-postman-javascript-action@v0.1
         with:
           who-to-greet: 'Mona the Octocat'
