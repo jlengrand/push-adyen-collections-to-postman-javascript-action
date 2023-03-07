@@ -16,9 +16,6 @@ async function run() {
         console.log(`Hello ${workspaceId}!`);
         console.log(`Hello ${filesChanged}!`);
 
-        const time = (new Date()).toTimeString();
-        core.setOutput("time", time);
-
         // Get the JSON webhook payload for the event that triggered the workflow
         // const payload = JSON.stringify(github.context.payload, undefined, 2)
         // console.log(`The event payload: ${payload}`);
@@ -27,6 +24,9 @@ async function run() {
         const collections = await getCollectionsInWorkspace(workspaceId, postmanApiKey);
 
         console.log(`The collections: ${collections}`);
+
+        const time = (new Date()).toTimeString();
+        core.setOutput("time", time);
 
 
     } catch (error) {
