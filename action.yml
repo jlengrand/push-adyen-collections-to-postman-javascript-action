@@ -4,6 +4,9 @@ inputs:
   postman-key:
     description: 'Postman API Key'
     required: true
+  workspace-id:
+    description: 'Postman Workspace ID'
+    required: true
   files-changed:
     description: 'Files changed'
     required: true

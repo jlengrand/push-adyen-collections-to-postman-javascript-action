@@ -1,6 +1,6 @@
 {
   "name": "push-adyen-collections-to-postman-javascript-action",
-  "version": "1.0.0",
+  "version": "0.1",
   "description": "This action will push the Adyen collections to Postman.",
   "main": "index.js",
   "scripts": {
