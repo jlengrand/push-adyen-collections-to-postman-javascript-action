@@ -9597,6 +9597,54 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 7135:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+const https = __nccwpck_require__(5687);
+
+exports.getWorkspace= async function(workspaceId, postmanApiKey) {
+    const options = {
+        hostname: 'api.getpostman.com',
+        port: 443,
+        path: '/workspaces/'+workspaceId,
+        method: 'GET',
+        headers: {
+            'X-Api-Key': postmanApiKey
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+
+        const req = https.request(options, (res) => {
+            if (res.statusCode < 200 || res.statusCode >= 300) {
+                return reject(new Error('statusCode=' + res.statusCode));
+            }
+
+            let body = [];
+            res.on('data', (chunk) => {
+                body.push(chunk);
+            });
+
+            res.on('end', () => {
+                try {
+                    body = JSON.parse(Buffer.concat(body).toString());
+                } catch (e) {
+                    reject(e);
+                }
+                resolve(body);
+            });
+        });
+
+        req.on('error', (err) => {
+            reject(err);
+        });
+
+        req.end();
+    });
+}
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -9766,14 +9814,28 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _postmanLibrary_js__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7135);
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 
@@ -9796,7 +9858,7 @@ async function run() {
         // console.log(`The event payload: ${payload}`);
 
         // Get the list of collections in the workspace
-        const collections = await getCollectionsInWorkspace(workspaceId, postmanApiKey);
+        const collections = await _postmanLibrary_js__WEBPACK_IMPORTED_MODULE_0__(workspaceId, postmanApiKey);
 
         console.log(`The collections: ${collections}`);
 
