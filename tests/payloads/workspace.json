@@ -1,0 +1,87 @@
+{
+  "workspace": {
+    "id": "a8d63f9f-cfc7-4810-90c5-9e0c60030d3e",
+    "name": "Adyen APIs",
+    "type": "team",
+    "description": "## Overview\n\nWorkspace with the latest version of the Adyen APIs: payments, platforms, terminals, management, etc..\n\n## How to use it\n\n**Fork** the \"Adyen APIs\" environment and configure the variables you need: Merchant Account, Balance Account (for Platforms), etc..\n\n> **VERY IMPORTANT**: fork it in a **PRIVATE** workspace. Keep your credentials, tokens and sensitive data private.\n\n**Fork** the collections and start hacking\n\n## References\n\n[Adyen API Explorer](https://docs.adyen.com/api-explorer/)\n\n[Get started with Adyen](https://docs.adyen.com/get-started-with-adyen](https://docs.adyen.com/get-started-with-adyen)\n\n[Adyen examples on Github](https://github.com/adyen-examples)",
+    "visibility": "public",
+    "createdBy": "25716737",
+    "updatedBy": "25716737",
+    "createdAt": "2023-02-15T08:18:19.000Z",
+    "updatedAt": "2023-02-16T10:29:35.000Z",
+    "collections": [
+      {
+        "id": "fad89288-f194-4741-ba52-225bc26c47c9",
+        "name": "Adyen Stored Value API (v46)",
+        "uid": "25716737-fad89288-f194-4741-ba52-225bc26c47c9"
+      },
+      {
+        "id": "365bdd3d-6ba6-44f5-8d93-dbcf3a075ef6",
+        "name": "Transfers API (v3)",
+        "uid": "25716737-365bdd3d-6ba6-44f5-8d93-dbcf3a075ef6"
+      },
+      {
+        "id": "3cd585cc-f367-4ef9-9499-84aeae2be303",
+        "name": "Adyen Test Cards API (v1)",
+        "uid": "25716737-3cd585cc-f367-4ef9-9499-84aeae2be303"
+      },
+      {
+        "id": "ffee4bcf-ac49-46ac-8963-e29f01f67a31",
+        "name": "Configuration API (v2)",
+        "uid": "25716737-ffee4bcf-ac49-46ac-8963-e29f01f67a31"
+      },
+      {
+        "id": "00d5d4da-fec7-4c1a-a63f-76fcd6c1532d",
+        "name": "Management API (v1)",
+        "uid": "25716737-00d5d4da-fec7-4c1a-a63f-76fcd6c1532d"
+      },
+      {
+        "id": "0a4fc86d-e9c9-4d5d-a6d5-b4167d276005",
+        "name": "Legal Entity Management API (v3)",
+        "uid": "25716737-0a4fc86d-e9c9-4d5d-a6d5-b4167d276005"
+      },
+      {
+        "id": "22369f71-e335-4adb-8cff-8636b2787a16",
+        "name": "Adyen Balance Control API (v1)",
+        "uid": "25716737-22369f71-e335-4adb-8cff-8636b2787a16"
+      },
+      {
+        "id": "a577321c-a48f-4972-a25d-64bf6da5d9dc",
+        "name": "POS Terminal Management API (v1)",
+        "uid": "25716737-a577321c-a48f-4972-a25d-64bf6da5d9dc"
+      },
+      {
+        "id": "275cf778-08ab-46c1-8889-9982f2975aad",
+        "name": "Adyen Data Protection API (v1)",
+        "uid": "25716737-275cf778-08ab-46c1-8889-9982f2975aad"
+      },
+      {
+        "id": "677c7679-a695-4ebb-91da-68b4e7c9228a",
+        "name": "Adyen BinLookup API (v54)",
+        "uid": "25716737-677c7679-a695-4ebb-91da-68b4e7c9228a"
+      },
+      {
+        "id": "0d1ef0da-f5a1-4004-b24a-c5152c51dc7b",
+        "name": "Adyen Recurring API (v68)",
+        "uid": "25716737-0d1ef0da-f5a1-4004-b24a-c5152c51dc7b"
+      },
+      {
+        "id": "20c00c42-289e-4c5e-90fe-fc6a40ad6e85",
+        "name": "Adyen Payout API (v68)",
+        "uid": "25716737-20c00c42-289e-4c5e-90fe-fc6a40ad6e85"
+      },
+      {
+        "id": "46ad970e-dc9e-4246-bac2-769c6083e7b5",
+        "name": "Adyen Checkout API (v70)",
+        "uid": "25716737-46ad970e-dc9e-4246-bac2-769c6083e7b5"
+      }
+    ],
+    "environments": [
+      {
+        "id": "496d2938-eb06-4c8c-a48e-57fdc7121aff",
+        "name": "Adyen APIs",
+        "uid": "25716737-496d2938-eb06-4c8c-a48e-57fdc7121aff"
+      }
+    ]
+  }
+}
