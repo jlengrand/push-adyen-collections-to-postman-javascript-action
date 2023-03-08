@@ -1,6 +1,6 @@
 const https = require('https');
 
-async function getCollectionsInWorkspace(workspaceId, postmanApiKey) {
+exports.getCollectionsInWorkspace= async function(workspaceId, postmanApiKey) {
     const options = {
         hostname: 'api.getpostman.com',
         port: 443,

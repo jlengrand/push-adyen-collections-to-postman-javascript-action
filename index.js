@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-
+import getCollectionsInWorkspace from './postmanLibrary.js';
 
 async function run() {
 
