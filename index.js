@@ -1,6 +1,6 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-import getCollectionsInWorkspace from './postmanLibrary.js';
+import * as core from '@actions/core';
+import * as github from '@actions/github';
+import * as postman from './postmanLibrary.js';
 
 async function run() {
 
@@ -20,13 +20,13 @@ async function run() {
         // console.log(`The event payload: ${payload}`);
 
         // Get the list of collections in the workspace
-        const collections = await getCollectionsInWorkspace(workspaceId, postmanApiKey);
+        const workspace = await postman.getWorkspace(workspaceId, postmanApiKey);
 
-        console.log(`The collections: ${collections}`);
+        console.log(`The workspace:`);
+        console.log(JSON.stringify(workspace, null, 4));
 
         const time = (new Date()).toTimeString();
         core.setOutput("time", time);
-
 
     } catch (error) {
         core.setFailed(error.message);
