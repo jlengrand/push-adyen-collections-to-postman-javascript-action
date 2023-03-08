@@ -3,8 +3,9 @@
   "version": "0.1",
   "description": "This action will push the Adyen collections to Postman.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "uvu tests",
     "local": "node localRun.js",
     "build": "ncc build index.js --license licenses.txt",
     "prepare": "husky install"
@@ -27,6 +28,7 @@
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "uvu": "^0.5.6"
   }
 }

@@ -14,7 +14,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v35
         with:
-          files: tests/*.yml
+          files: samples/*.yml
       - name: push-adyen-collections-to-postman-javascript-action
         id: process
         uses: jlengrand/push-adyen-collections-to-postman-javascript-action@main

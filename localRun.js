@@ -1,6 +1,8 @@
-const postman = require('./postmanLibrary');
-const util = require('util')
-require('dotenv').config()
+import * as postman from './postmanLibrary.js';
+import * as dotenv from 'dotenv';
+import * as util from 'util';
+
+dotenv.config();
 
 const POSTMAN_API_KEY = process.env.POSTMAN_API_KEY;
 const POSTMAN_WORKSPACE_ID = process.env.POSTMAN_WORKSPACE_ID;

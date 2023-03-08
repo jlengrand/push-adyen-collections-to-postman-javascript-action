@@ -1,6 +1,6 @@
-const https = require('https');
+import * as https from 'https';
 
-exports.getWorkspace= async function(workspaceId, postmanApiKey) {
+export async function getWorkspace(workspaceId, postmanApiKey) {
     const options = {
         hostname: 'api.getpostman.com',
         port: 443,
