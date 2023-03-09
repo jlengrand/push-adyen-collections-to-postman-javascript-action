@@ -3100,6 +3100,8 @@ async function run() {
 
 async function runParameters(postmanApiKey, workspaceId, filesToProcess){
 
+    console.log(`Files to process : ${filesToProcess}`);
+    
     console.log(`Getting workspace ${workspaceId}!`);
 
     const workspace = await getWorkspace(workspaceId, postmanApiKey);
