@@ -51,13 +51,13 @@ async function localRun(filesToProcess) {
 
         }
         // Or no match at all, in which case we should create a new collection
-        if(noMatch){
+        else if(noMatch){
             console.log(`Creating collection ${api.name}`);
             await postman.createCollection(api.filepath, POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
 
         }
         // We have an exact match, not doing anything but logging it for safety
-        if(collectionExactMatch){
+        else if(collectionExactMatch){
             console.log(`Collection ${api.name} already exists`);
         }
         // otherwise, we don't quite know what happened, so we log it
