@@ -16,4 +16,4 @@ jobs:
         with:
           postman-key: ${{ secrets.POSTMAN_API_KEY }}
           workspace-id: ${{ secrets.POSTMAN_WORKSPACE_ID }}
-          path-to-process: samples/*.yml
+          path-to-process: samples

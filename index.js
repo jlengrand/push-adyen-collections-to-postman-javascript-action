@@ -21,16 +21,11 @@ export async function runParameters(postmanApiKey, workspaceId, pathToProcess){
 
     console.log(`Path to process : ${pathToProcess}`);
     console.log(`Files to process : ${apiFilesWithPath}`);
-
     console.log(`Getting workspace ${workspaceId}!`);
     
-    console.log("-----");
 
     const workspace = await postman.getWorkspace(workspaceId, postmanApiKey);
 
-    console.log(JSON.stringify(workspace));
-    console.log("-----");
-    
     const collections = workspace.workspace.collections;
 
     const apisToProcess = utils.filenamesToSet(apiFilesWithPath);
