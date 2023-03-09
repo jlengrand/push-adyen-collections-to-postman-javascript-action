@@ -9701,6 +9701,23 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ }
 /******/ 
 /************************************************************************/
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__nccwpck_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /******/ /* webpack/runtime/compat */
 /******/ 
 /******/ if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = new URL('.', import.meta.url).pathname.slice(import.meta.url.match(/^file:\/\/\/\w:/) ? 1 : 0, -1) + "/";
@@ -9709,6 +9726,11 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "P": () => (/* binding */ runParameters)
+});
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(2186);
@@ -9781,7 +9803,7 @@ async function getWorkspace(workspaceId, postmanApiKey) {
  * @returns {Promise<Object>} a promise containing the created collection
  */
 async function createCollection(apiFile, workspaceId, postmanApiKey) {
-    const collection = JSON.parse(fs.readFileSync(apiFile, 'utf8'));
+    const collection = JSON.parse(external_fs_.readFileSync(apiFile, 'utf8'));
     const postData = JSON.stringify({
         "collection": collection,
     });
@@ -9798,7 +9820,7 @@ async function createCollection(apiFile, workspaceId, postmanApiKey) {
     }
 
     return new Promise((resolve, reject) => {
-        const req = https.request(options, (res) => {
+        const req = external_https_.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
                 return reject(new Error('statusCode=' + res.statusCode));
             }
@@ -9835,7 +9857,7 @@ async function createCollection(apiFile, workspaceId, postmanApiKey) {
  * @returns {Promise<Object>} a promise containing the updated collection
  */
 async function updateCollection(apiFile, collectionId, postmanApiKey) {
-    const collection = JSON.parse(fs.readFileSync(apiFile, 'utf8'));
+    const collection = JSON.parse(external_fs_.readFileSync(apiFile, 'utf8'));
     const postData = JSON.stringify({
         "collection": collection,
     });
@@ -9852,7 +9874,7 @@ async function updateCollection(apiFile, collectionId, postmanApiKey) {
     }
 
     return new Promise((resolve, reject) => {
-        const req = https.request(options, (res) => {
+        const req = external_https_.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
                 return reject(new Error('statusCode=' + res.statusCode));
             }
@@ -9880,7 +9902,116 @@ async function updateCollection(apiFile, collectionId, postmanApiKey) {
         req.end();
     });
 }
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(1017);
+;// CONCATENATED MODULE: ./utils.js
+
+
+
+
+/**
+ * Given the filepath of a Postman API definition, returns the name of the API from the info section
+ * @param {string} filepath the path to the API file
+ * @returns {string} the name of the API
+ */
+function getNameOfApi(filepath){
+    const api = JSON.parse(external_fs_.readFileSync(filepath, 'utf8'));
+    return api.info.name;
+}
+
+/**
+ * Given a filepath and a file extension, returns all files with that extension in the given filepath
+ * @constructor
+ * @param {string} filepath a list of filenames, including path and extension
+ * @param {string} extension the extension to filter by
+ * @returns {Promise<Array.<string>>} a promise containing a list of filenames with the given extension
+ */
+async function getFilesInFolder(filepath, extension){
+    return fs.promises.readdir(filepath).then((files) => {
+        return files.filter((file) => {
+            return path.extname(file) === extension;
+        });
+    });
+}
+
+/**
+ * This is a pretty specific function.
+ * Given a list of filenames in a ./a/folder/filename-v23 format that may contain many filenames with different versions,
+ * it will return a list of filenames with only the highest version of each filename.
+ * For example, given
+ *
+ * ["../adyen-postman/postman/BinLookupService-v39.json",
+ * "../adyen-postman/postman/BinLookupService-v40.json",
+ * "../adyen-postman/postman/BinLookupService-v42.json",
+ * ["../adyen-postman/postman/CheckoutService-v70.json"]
+ *
+ * , the function will return
+ *
+ * ["../adyen-postman/postman/BinLookupService-v42.json",
+ * ["../adyen-postman/postman/CheckoutService-v70.json"]
+ *
+ * @constructor
+ * @param {Array.<string>} filenames a list of filenames, including path and extension
+ * @param {Array.<string>} filenames with only the highest version of each filename
+ */
+function filenamesToSet(filenames){
+
+    const clearerApis = filenames.map((filename) => {
+        return {
+            "path" :filename,
+            "name" : external_path_.parse(filename).name,
+            "root" : external_path_.parse(filename).name.split("-")[0],
+            "version" : external_path_.parse(filename).name.split("-v")[1],
+        }
+    });
+
+    const groupsOfApis = _groupBy(clearerApis, "root");
+    const highestVersions = Object.values(groupsOfApis).map((value) => {
+        return value.reduce(
+            (prev, current) => {
+                return prev.version > current.version ? prev : current
+            });
+    });
+
+    return highestVersions.map((value) => { return value.path});
+}
+
+
+/**
+ * Given an API Name in the form APIName (vXX) where XX is the version number, extracts the version number
+ * @param {string} apiName the name of the API
+ * @returns {number|null} the version number, or null if no version number is found
+ *
+ * @example
+ *  // returns "70"
+ *  extractVersionNumber("Adyen Checkout API (v70)");
+ */
+function extractVersionNumber(apiName) {
+    const versionMatch = apiName.match(/\(v(\d+)\)/);
+    return versionMatch ? Number(versionMatch[1]) : null;
+}
+
+/**
+ * Group an array of objects using the given key
+ * @param {Array} xs an array of objects
+ * @param {String} key the key to group by
+ * @returns {Object} an object with each key being the value of the given key used to group by, and the value being an array of objects with that key
+ * @private
+ *
+ *  @example
+ *  // returns {"3": ["one", "two"], "5": ["three"]}
+ *  groupBy(['one', 'two', 'three'], 'length')
+ *
+ *  Thank you https://stackoverflow.com/questions/14446511/most-efficient-method-to-groupby-on-an-array-of-objects!
+ */
+function _groupBy(xs, key) {
+    return xs.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
+}
 ;// CONCATENATED MODULE: ./index.js
+
 
 
 
@@ -9892,23 +10023,9 @@ async function run() {
         const filesChanged = core.getInput('files-changed');
         const workspaceId = core.getInput('workspace-id');
 
-        const zeFiles = filesChanged.split(' ');
+        const time = runParameters(postmanApiKey, workspaceId, filesChanged);
 
-        console.log(`Hello ${postmanApiKey}!`);
-        console.log(`Hello ${workspaceId}!`);
-        console.log(`Hello ${filesChanged}!`);
-
-        // Get the JSON webhook payload for the event that triggered the workflow
-        // const payload = JSON.stringify(github.context.payload, undefined, 2)
-        // console.log(`The event payload: ${payload}`);
-
-        // Get the list of collections in the workspace
-        const workspace = await getWorkspace(workspaceId, postmanApiKey);
-
-        console.log(`The workspace:`);
-        console.log(JSON.stringify(workspace, null, 4));
-
-        const time = (new Date()).toTimeString();
+        // TODO : Change output to something better. Is there any output actually?
         core.setOutput("time", time);
 
     } catch (error) {
@@ -9916,7 +10033,65 @@ async function run() {
     }
 }
 
+async function runParameters(postmanApiKey, workspaceId, filesToProcess){
+
+    console.log(`Getting workspace ${workspaceId}!`);
+
+    const workspace = await getWorkspace(workspaceId, postmanApiKey);
+    const collections = workspace.workspace.collections;
+
+    const filesToProcessAsList = filesToProcess.split(' ');
+    const apisToProcess = filenamesToSet(filesToProcessAsList);
+
+    const apisToProcessStructures = apisToProcess.map((api) => {
+        console.log(`Processing ${api}`);
+        return {
+            "filepath": api,
+            "name" : getNameOfApi(api)
+        }
+    });
+
+    // We go through each API to process and match it with an existing POSTMAN Collections
+    for(const api of apisToProcessStructures){
+
+        const noMatch = collections.find(collection => collection.name === api.name) === undefined;
+        const collectionVersion = collections.find(
+            collection => collection.name.split(" (")[0] === api.name.split(" (")[0]
+                && extractVersionNumber(api.name) > extractVersionNumber(collection.name)
+        );
+        const collectionExactMatch = collections.find(
+            collection => collection.name.split(" (")[0] === api.name.split(" (")[0]
+        );
+
+        // We have a match and with a higher version, in which case we have to update the collection
+        if(collectionVersion){
+            console.log(`Updating collection ${collectionVersion.name} with ${api.name}`);
+            await updateCollection(api.filepath, collectionVersion.id, postmanApiKey)
+
+        }
+        // Or no match at all, in which case we should create a new collection
+        else if(noMatch){
+            console.log(`Creating collection ${api.name}`);
+            await createCollection(api.filepath, workspaceId, postmanApiKey);
+
+        }
+        // We have an exact match, not doing anything but logging it for safety
+        else if(collectionExactMatch){
+            console.log(`Collection ${api.name} already exists`);
+        }
+        // otherwise, we don't quite know what happened, so we log it
+        else{
+            console.log(`No action for ${api.name}. Shouldn't happen!`);
+        }
+    }
+
+
+    return (new Date()).toTimeString();
+}
+
 
 run()
 })();
 
+var __webpack_exports__runParameters = __webpack_exports__.P;
+export { __webpack_exports__runParameters as runParameters };
