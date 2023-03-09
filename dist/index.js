@@ -9827,6 +9827,59 @@ async function createCollection(apiFile, workspaceId, postmanApiKey) {
     });
 }
 
+/**
+ * Creates a new POSTMAN collection in the given workspace.
+ * @param {string} apiFile the path to the API file to use to create the collection. The file should be a JSON file in POSTMAN format
+ * @param {string} collectionId the id of the collection to update
+ * @param {string} postmanApiKey the API key to use to access the POSTMAN API
+ * @returns {Promise<Object>} a promise containing the updated collection
+ */
+async function updateCollection(apiFile, collectionId, postmanApiKey) {
+    const collection = JSON.parse(fs.readFileSync(apiFile, 'utf8'));
+    const postData = JSON.stringify({
+        "collection": collection,
+    });
+
+    const options = {
+        hostname: 'api.getpostman.com',
+        port: 443,
+        path: '/collections/'+ collectionId,
+        method: 'PUT',
+        headers: {
+            'X-Api-Key': postmanApiKey,
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+            if (res.statusCode < 200 || res.statusCode >= 300) {
+                return reject(new Error('statusCode=' + res.statusCode));
+            }
+
+            let body = [];
+            res.on('data', (chunk) => {
+                body.push(chunk);
+            });
+
+            res.on('end', () => {
+                try {
+                    body = JSON.parse(Buffer.concat(body).toString());
+                } catch (e) {
+                    reject(e);
+                }
+                resolve(body);
+            });
+        });
+
+        req.on('error', (err) => {
+            reject(err);
+        });
+
+        req.write(postData);
+        req.end();
+    });
+}
 ;// CONCATENATED MODULE: ./index.js
 
 

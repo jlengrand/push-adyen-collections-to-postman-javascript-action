@@ -35,7 +35,7 @@ async function localRun(filesToProcess) {
     });
 
     // We go through each API to process and match it with an existing POSTMAN Collections
-    apisToProcessStructures.forEach((api) => {
+    for(const api of apisToProcessStructures){
 
         const noMatch = collections.find(collection => collection.name === api.name) === undefined;
         const collectionVersion = collections.find(
@@ -49,22 +49,24 @@ async function localRun(filesToProcess) {
         // We have a match and with a higher version, in which case we have to update the collection
         if(collectionVersion){
             console.log(`Updating collection ${collectionVersion.name} with ${api.name}`);
-            // postman.updateCollection(collectionVersion.id, api.filepath, POSTMAN_API_KEY);
-        }
+            await postman.updateCollection(api.filepath, collectionVersion.id, POSTMAN_API_KEY)
 
+        }
         // Or no match at all, in which case we should create a new collection
         if(noMatch){
             console.log(`Creating collection ${api.name}`);
-            postman.createCollection(api.filepath, POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
+            await postman.createCollection(api.filepath, POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
+
         }
         // We have an exact match, not doing anything but logging it for safety
         if(collectionExactMatch){
             console.log(`Collection ${api.name} already exists`);
         }
+        // otherwise, we don't quite know what happened, so we log it
         else{
             console.log(`No action for ${api.name}. Shouldn't happen!`);
         }
-    });
+    }
 }
 
 const path = "../adyen-postman/postman";
