@@ -9716,7 +9716,10 @@ var core = __nccwpck_require__(2186);
 var github = __nccwpck_require__(5438);
 // EXTERNAL MODULE: external "https"
 var external_https_ = __nccwpck_require__(5687);
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(7147);
 ;// CONCATENATED MODULE: ./postmanLibrary.js
+
 
 
 /**
@@ -9769,6 +9772,61 @@ async function getWorkspace(workspaceId, postmanApiKey) {
         req.end();
     });
 }
+
+/**
+ * Creates a new POSTMAN collection in the given workspace.
+ * @param {string} apiFile the path to the API file to use to create the collection. The file should be a JSON file in POSTMAN format
+ * @param {string} workspaceId the id of the workspace to create the collection in
+ * @param {string} postmanApiKey the API key to use to access the POSTMAN API
+ * @returns {Promise<Object>} a promise containing the created collection
+ */
+async function createCollection(apiFile, workspaceId, postmanApiKey) {
+    const collection = JSON.parse(fs.readFileSync(apiFile, 'utf8'));
+    const postData = JSON.stringify({
+        "collection": collection,
+    });
+
+    const options = {
+        hostname: 'api.getpostman.com',
+        port: 443,
+        path: '/collections/?workspace='+workspaceId,
+        method: 'POST',
+        headers: {
+            'X-Api-Key': postmanApiKey,
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+            if (res.statusCode < 200 || res.statusCode >= 300) {
+                return reject(new Error('statusCode=' + res.statusCode));
+            }
+
+            let body = [];
+            res.on('data', (chunk) => {
+                body.push(chunk);
+            });
+
+            res.on('end', () => {
+                try {
+                    body = JSON.parse(Buffer.concat(body).toString());
+                } catch (e) {
+                    reject(e);
+                }
+                resolve(body);
+            });
+        });
+
+        req.on('error', (err) => {
+            reject(err);
+        });
+
+        req.write(postData);
+        req.end();
+    });
+}
+
 ;// CONCATENATED MODULE: ./index.js
 
 

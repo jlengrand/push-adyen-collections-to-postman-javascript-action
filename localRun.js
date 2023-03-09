@@ -55,7 +55,7 @@ async function localRun(filesToProcess) {
         // Or no match at all, in which case we should create a new collection
         if(noMatch){
             console.log(`Creating collection ${api.name}`);
-            // postman.createCollection(api.name, api.filepath, POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
+            postman.createCollection(api.filepath, POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
         }
         // We have an exact match, not doing anything but logging it for safety
         if(collectionExactMatch){

@@ -1,4 +1,5 @@
 import * as https from 'https';
+import fs from "fs";
 
 /**
  * Retrieves the workspace with the given workspaceId using the POSTMAN API
@@ -47,6 +48,60 @@ export async function getWorkspace(workspaceId, postmanApiKey) {
             reject(err);
         });
 
+        req.end();
+    });
+}
+
+/**
+ * Creates a new POSTMAN collection in the given workspace.
+ * @param {string} apiFile the path to the API file to use to create the collection. The file should be a JSON file in POSTMAN format
+ * @param {string} workspaceId the id of the workspace to create the collection in
+ * @param {string} postmanApiKey the API key to use to access the POSTMAN API
+ * @returns {Promise<Object>} a promise containing the created collection
+ */
+export async function createCollection(apiFile, workspaceId, postmanApiKey) {
+    const collection = JSON.parse(fs.readFileSync(apiFile, 'utf8'));
+    const postData = JSON.stringify({
+        "collection": collection,
+    });
+
+    const options = {
+        hostname: 'api.getpostman.com',
+        port: 443,
+        path: '/collections/?workspace='+workspaceId,
+        method: 'POST',
+        headers: {
+            'X-Api-Key': postmanApiKey,
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+            if (res.statusCode < 200 || res.statusCode >= 300) {
+                return reject(new Error('statusCode=' + res.statusCode));
+            }
+
+            let body = [];
+            res.on('data', (chunk) => {
+                body.push(chunk);
+            });
+
+            res.on('end', () => {
+                try {
+                    body = JSON.parse(Buffer.concat(body).toString());
+                } catch (e) {
+                    reject(e);
+                }
+                resolve(body);
+            });
+        });
+
+        req.on('error', (err) => {
+            reject(err);
+        });
+
+        req.write(postData);
         req.end();
     });
 }
