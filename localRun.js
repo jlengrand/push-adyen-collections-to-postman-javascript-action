@@ -1,7 +1,6 @@
 import * as postman from './postmanLibrary.js';
 import * as dotenv from 'dotenv';
 import * as utils from './utils.js';
-import * as fs from 'fs';
 
 dotenv.config();
 
@@ -19,8 +18,7 @@ const POSTMAN_WORKSPACE_ID = process.env.POSTMAN_WORKSPACE_ID;
 async function localRun(filesToProcess) {
     console.log(`Getting workspace ${POSTMAN_WORKSPACE_ID}!`);
 
-    // const workspace = await postman.getWorkspace(POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
-    const workspace = JSON.parse(fs.readFileSync('./samples/payloads/workspace.json', 'utf8'));
+    const workspace = await postman.getWorkspace(POSTMAN_WORKSPACE_ID, POSTMAN_API_KEY);
     const collections = workspace.workspace.collections;
 
     const filesToProcessAsList = filesToProcess.split(' ');
