@@ -1,18 +1,14 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
 import * as postman from './postmanLibrary.js';
 import * as utils from "./utils.js";
 
 async function run() {
-
     try {
         const postmanApiKey = core.getInput('postman-key');
         const filesChanged = core.getInput('files-changed');
         const workspaceId = core.getInput('workspace-id');
 
         const time = runParameters(postmanApiKey, workspaceId, filesChanged);
-
-        // TODO : Change output to something better. Is there any output actually?
         core.setOutput("time", time);
 
     } catch (error) {
@@ -71,10 +67,13 @@ export async function runParameters(postmanApiKey, workspaceId, filesToProcess){
             console.log(`No action for ${api.name}. Shouldn't happen!`);
         }
     }
-
-
-    return (new Date()).toTimeString();
+    console.log("Finished processing files!");
 }
 
-
 run()
+    .then( _ => {
+        console.log("Finished action!");
+    })
+    .catch(err => {
+        console.log(err);
+    });

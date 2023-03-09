@@ -1,5 +1,5 @@
 name: 'Push Adyen Collections to Postman '
-description: 'Greet someone and record the time'
+description: 'Takes the list of changed files and pushes them to Postman in the given workspace, by either updating or creating new collections.'
 inputs:
   postman-key:
     description: 'Postman API Key'
@@ -10,9 +10,6 @@ inputs:
   files-changed:
     description: 'Files changed'
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 runs:
   using: 'node16'
   main: 'dist/index.js'
