@@ -18,6 +18,8 @@ async function run() {
 
 export async function runParameters(postmanApiKey, workspaceId, filesToProcess){
 
+    console.log(`Files to process : ${filesToProcess}`);
+    
     console.log(`Getting workspace ${workspaceId}!`);
 
     const workspace = await postman.getWorkspace(workspaceId, postmanApiKey);
