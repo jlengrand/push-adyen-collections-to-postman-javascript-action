@@ -13,15 +13,12 @@ dotenv.config();
  * @param {string} path the path to the folder containing the API files to process
  * @returns {Promise<void>} a promise that resolves when the function is done
  */
-async function localRun(path) {
-    const apiFiles = await utils.getFilesInFolder(path, ".json");
-    const apiFilesWithPath = apiFiles.map((file) => {  return `${path}/${file}`; });
-    const apiFilesWithPathAsString = apiFilesWithPath.join(" ");
+async function localRun(pathToProcess) {
 
     const POSTMAN_API_KEY = process.env.POSTMAN_API_KEY;
     const POSTMAN_WORKSPACE_ID = process.env.POSTMAN_WORKSPACE_ID;
 
-    runParameters(POSTMAN_API_KEY, POSTMAN_WORKSPACE_ID, apiFilesWithPathAsString);
+    await runParameters(POSTMAN_API_KEY, POSTMAN_WORKSPACE_ID, pathToProcess);
 }
 
 localRun("../adyen-postman/postman/")

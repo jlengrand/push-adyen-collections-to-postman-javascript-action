@@ -5,21 +5,23 @@ import * as utils from "./utils.js";
 async function run() {
     try {
         const postmanApiKey = core.getInput('postman-key');
-        const filesChanged = core.getInput('files-changed');
+        const pathToProcess = core.getInput('path-to-process');
         const workspaceId = core.getInput('workspace-id');
 
-        const time = runParameters(postmanApiKey, workspaceId, filesChanged);
-        core.setOutput("time", time);
+        runParameters(postmanApiKey, workspaceId, pathToProcess);
 
     } catch (error) {
         core.setFailed(error.message);
     }
 }
 
-export async function runParameters(postmanApiKey, workspaceId, filesToProcess){
+export async function runParameters(postmanApiKey, workspaceId, pathToProcess){
+    const filesToProcessAsList = await utils.getFilesInFolder(pathToProcess, ".json");
+    const apiFilesWithPath = filesToProcessAsList.map((file) => {  return `${pathToProcess}/${file}`; });
 
-    console.log(`Files to process : ${filesToProcess}`);
-    
+    console.log(`Path to process : ${pathToProcess}`);
+    console.log(`Files to process : ${apiFilesWithPath}`);
+
     console.log(`Getting workspace ${workspaceId}!`);
     
     console.log("-----");
@@ -28,12 +30,10 @@ export async function runParameters(postmanApiKey, workspaceId, filesToProcess){
 
     console.log(JSON.stringify(workspace));
     console.log("-----");
-
     
     const collections = workspace.workspace.collections;
 
-    const filesToProcessAsList = filesToProcess.split(' ');
-    const apisToProcess = utils.filenamesToSet(filesToProcessAsList);
+    const apisToProcess = utils.filenamesToSet(apiFilesWithPath);
 
     const apisToProcessStructures = apisToProcess.map((api) => {
         console.log(`Processing ${api}`);

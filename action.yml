@@ -7,8 +7,8 @@ inputs:
   workspace-id:
     description: 'Postman Workspace ID'
     required: true
-  files-changed:
-    description: 'Files changed'
+  path-to-process:
+    description: 'Path to process'
     required: true
 runs:
   using: 'node16'
