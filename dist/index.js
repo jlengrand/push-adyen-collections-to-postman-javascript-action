@@ -3103,8 +3103,15 @@ async function runParameters(postmanApiKey, workspaceId, filesToProcess){
     console.log(`Files to process : ${filesToProcess}`);
     
     console.log(`Getting workspace ${workspaceId}!`);
+    
+    console.log("-----");
 
     const workspace = await getWorkspace(workspaceId, postmanApiKey);
+
+    console.log(JSON.stringify(workspace));
+    console.log("-----");
+
+    
     const collections = workspace.workspace.collections;
 
     const filesToProcessAsList = filesToProcess.split(' ');
