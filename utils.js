@@ -1,4 +1,31 @@
 import * as path from "path";
+import * as fs from 'fs';
+
+
+/**
+ * Given the filepath of a Postman API definition, returns the name of the API from the info section
+ * @param {string} filepath the path to the API file
+ * @returns {string} the name of the API
+ */
+export function getNameOfApi(filepath){
+    const api = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    return api.info.name;
+}
+
+/**
+ * Given a filepath and a file extension, returns all files with that extension in the given filepath
+ * @constructor
+ * @param {string} filepath a list of filenames, including path and extension
+ * @param {string} extension the extension to filter by
+ * @returns {Promise<Array.<string>>} a promise containing a list of filenames with the given extension
+ */
+export async function getFilesInFolder(filepath, extension){
+    return fs.promises.readdir(filepath).then((files) => {
+        return files.filter((file) => {
+            return path.extname(file) === extension;
+        });
+    });
+}
 
 /**
  * This is a pretty specific function.
@@ -39,9 +66,23 @@ export function filenamesToSet(filenames){
             });
     });
 
-    return highestVersions.map((value) => { return value.path});;
+    return highestVersions.map((value) => { return value.path});
 }
 
+
+/**
+ * Given an API Name in the form APIName (vXX) where XX is the version number, extracts the version number
+ * @param {string} apiName the name of the API
+ * @returns {number|null} the version number, or null if no version number is found
+ *
+ * @example
+ *  // returns "70"
+ *  extractVersionNumber("Adyen Checkout API (v70)");
+ */
+export function extractVersionNumber(apiName) {
+    const versionMatch = apiName.match(/\(v(\d+)\)/);
+    return versionMatch ? Number(versionMatch[1]) : null;
+}
 
 /**
  * Group an array of objects using the given key
