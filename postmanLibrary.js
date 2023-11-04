@@ -26,6 +26,7 @@ export async function getWorkspace(workspaceId, postmanApiKey) {
 
         const req = https.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in getWorkspace - workspaceId:" + workspaceId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
@@ -79,6 +80,7 @@ export async function createCollection(apiFile, workspaceId, postmanApiKey) {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in createCollection - workspaceId:" + workspaceId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
@@ -133,6 +135,7 @@ export async function updateCollection(apiFile, collectionId, postmanApiKey) {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in updateCollection - collectionId:" + collectionId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
