@@ -3144,8 +3144,8 @@ async function runParameters(postmanApiKey, workspaceId, pathToProcess){
 
             // We have a match and with a higher version, in which case we have to update the collection
             if(collectionVersion){
-                console.log(`Updating collection ${collectionVersion.name} with ${api.name}`);
-                await updateCollection(api.filepath, collectionVersion.id, postmanApiKey)
+                console.log(`Updating collection ${collectionVersion.name} id ${collectionVersion.uid} with ${api.name}`);
+                await updateCollection(api.filepath, collectionVersion.uid, postmanApiKey)
 
             }
             // Or no match at all, in which case we should create a new collection
