@@ -2838,6 +2838,7 @@ async function getWorkspace(workspaceId, postmanApiKey) {
 
         const req = external_https_.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in getWorkspace - workspaceId:" + workspaceId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
@@ -2891,6 +2892,7 @@ async function createCollection(apiFile, workspaceId, postmanApiKey) {
     return new Promise((resolve, reject) => {
         const req = external_https_.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in createCollection - workspaceId:" + workspaceId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
@@ -2945,6 +2947,7 @@ async function updateCollection(apiFile, collectionId, postmanApiKey) {
     return new Promise((resolve, reject) => {
         const req = external_https_.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
+                console.log("Error in updateCollection - collectionId:" + collectionId);
                 return reject(new Error('statusCode=' + res.statusCode));
             }
 
@@ -2971,6 +2974,7 @@ async function updateCollection(apiFile, collectionId, postmanApiKey) {
         req.end();
     });
 }
+
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(17);
 ;// CONCATENATED MODULE: ./utils.js
